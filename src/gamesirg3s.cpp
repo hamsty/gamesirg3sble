@@ -16,7 +16,7 @@ JoystickClient::JoystickClient()
     doConnect = false;
     connected = false;
     JoystickClient::init("JoystickClient");
-    BLEScan *pBLEScan = JoystickClient::getScan();
+    pBLEScan = JoystickClient::getScan();
     pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
     pBLEScan->setInterval(1349);
     pBLEScan->setWindow(449);
@@ -131,3 +131,7 @@ bool JoystickClient::aPressed(){
 bool JoystickClient::isConnected(){
     return data[BUTTONS_PLAY]==2;
 };
+
+BLEScan* JoystickClient::scan(){
+    return pBLEScan;
+}

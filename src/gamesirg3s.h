@@ -25,6 +25,7 @@ class JoystickClient : BLEDevice {
         std::pair<int,int> getXY();
         bool aPressed();
         bool bPressed();
+        BLEScan* scan();
 
     private:
         static BLEAddress address;
@@ -33,6 +34,7 @@ class JoystickClient : BLEDevice {
         static boolean doConnect;
         static boolean connected;
         static BLEAdvertisedDevice *myDevice;
+        static BLEScan *pBLEScan;
 
         BLEClient *bclient;
 
