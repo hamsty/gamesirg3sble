@@ -11,17 +11,6 @@ static BLEUUID serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
 static BLEUUID charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
 static boolean connected = false;
 
-JoystickClient::JoystickClient()
-{
-    doConnect = false;
-    connected = false;
-    JoystickClient::init("JoystickClient");
-    pBLEScan = JoystickClient::getScan();
-    pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
-    pBLEScan->setInterval(1349);
-    pBLEScan->setWindow(449);
-    pBLEScan->setActiveScan(true);
-}
 
 JoystickClient::~JoystickClient()
 {
@@ -128,10 +117,22 @@ bool JoystickClient::aPressed(){
     return data[BUTTONS_PLAY]==1;
 };
 
-bool JoystickClient::isConnected(){
+bool JoystickClient::bPressed(){
     return data[BUTTONS_PLAY]==2;
 };
 
 BLEScan* JoystickClient::scan(){
     return pBLEScan;
+}
+
+JoystickClient::JoystickClient()
+{
+    doConnect = false;
+    connected = false;
+    JoystickClient::init("JoystickClient");
+    pBLEScan = JoystickClient::getScan();
+    pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
+    pBLEScan->setInterval(1349);
+    pBLEScan->setWindow(449);
+    pBLEScan->setActiveScan(true);
 }
