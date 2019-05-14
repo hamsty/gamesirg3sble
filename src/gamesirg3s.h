@@ -5,6 +5,10 @@
 #if defined(CONFIG_BT_ENABLED)
 
 #include <BLEDevice.h>
+#include <BLEClient.h>
+#include <BLERemoteCharacteristic.h>
+#include <BLEAdvertisedDevice.h>
+#include <BLEUtils.h>
 #include <Arduino.h>
 #include <math.h>
 #include <string.h>
