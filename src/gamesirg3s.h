@@ -31,9 +31,9 @@ private:
     const static BLEAddress address;
     const static BLEUUID serviceUUID;
     const static BLEUUID charUUID;
-    boolean connected;
+    static boolean connected;
     BLERemoteCharacteristic *pRemoteCharacteristic;
-    BLEAdvertisedDevice *myDevice;
+    static BLEAdvertisedDevice *myDevice;
     boolean doConnect;
     uint8_t *ddata;
     BLEScan *pBLEScan;

@@ -70,7 +70,7 @@ void JoystickClient::MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice a
     if (advertisedDevice.getAddress().equals(address))
     {
 
-        BLEDevice::getScan()->stop();
+        JoystickClient::getScan()->stop();
         myDevice = new BLEAdvertisedDevice(advertisedDevice);
 
     } // Found our server
