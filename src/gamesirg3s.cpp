@@ -10,28 +10,24 @@ static BLEAddress address("86:55:06:68:2D:E0");
 static BLEUUID serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
 static BLEUUID charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
 static boolean connected = false;
+static BLERemoteCharacteristic* pRemoteCharacteristic;
+static BLEAdvertisedDevice* myDevice;
+static boolean doConnect = false;
+static uint8_t* ddata;
+BLEScan *pBLEScan;
 
-
-JoystickClient::~JoystickClient()
+void MyClientCallback::onConnect(BLEClient *pclient)
 {
-    delete myDevice;
-    delete bclient;
-    delete data;
-    delete pRemoteCharacteristic;
-}
 
-class JoystickClient::MyClientCallback : public BLEClientCallbacks
-{
-    void onConnect(BLEClient *pclient)
-    {
-    }
-
-    void onDisconnect(BLEClient *pclient)
-    {
-        connected = false;
-        Serial.println("onDisconnect");
-    }
 };
+
+
+void MyClientCallback::onDisconnect(BLEClient *pclient)
+{
+    connected = false;
+    Serial.println("onDisconnect");
+};
+
 
 bool JoystickClient::connectToServer()
 {
@@ -71,26 +67,20 @@ bool JoystickClient::connectToServer()
     connected = true;
 }
 
-class JoystickClient::MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
+void MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice advertisedDevice)
 {
-    /**
-   * Called for each advertising BLE server.
-   */
-    void onResult(BLEAdvertisedDevice advertisedDevice)
+    Serial.print("BLE Advertised Device found: ");
+    Serial.println(advertisedDevice.toString().c_str());
+
+    // We have found a device, let us now see if it contains the service we are looking for.
+    if (advertisedDevice.getAddress().equals(address))
     {
-        Serial.print("BLE Advertised Device found: ");
-        Serial.println(advertisedDevice.toString().c_str());
 
-        // We have found a device, let us now see if it contains the service we are looking for.
-        if (advertisedDevice.getAddress().equals(address))
-        {
+        BLEDevice::getScan()->stop();
+        myDevice = new BLEAdvertisedDevice(advertisedDevice);
 
-            BLEDevice::getScan()->stop();
-            myDevice = new BLEAdvertisedDevice(advertisedDevice);
-
-        } // Found our server
-    }     // onResult
-};        // MyAdvertisedDeviceCallbacks
+    } // Found our server
+}     // onResult
 
 bool JoystickClient::isFind(){
     return doConnect;
@@ -103,22 +93,22 @@ bool JoystickClient::isConnected(){
 bool JoystickClient::update(){
     if(connected){
         pRemoteCharacteristic->readValue();
-        data = pRemoteCharacteristic->readRawData();
+        ddata = pRemoteCharacteristic->readRawData();
     }
 };
 
 pair<int,int> JoystickClient::getXY(){
-    int x = data[L3_X] > 128 ? 1 : (data[L3_X] < 128 ? -1 : 0);
-    int y = data[L3_Y] > 128 ? -1 : (data[L3_Y] < 128 ? 1 : 0);
+    int x = ddata[L3_X] > 128 ? 1 : (ddata[L3_X] < 128 ? -1 : 0);
+    int y = ddata[L3_Y] > 128 ? -1 : (ddata[L3_Y] < 128 ? 1 : 0);
     return {x,y};
 };
 
 bool JoystickClient::aPressed(){
-    return data[BUTTONS_PLAY]==1;
+    return ddata[BUTTONS_PLAY]==1;
 };
 
 bool JoystickClient::bPressed(){
-    return data[BUTTONS_PLAY]==2;
+    return ddata[BUTTONS_PLAY]==2;
 };
 
 BLEScan* JoystickClient::scan(){

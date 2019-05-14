@@ -13,35 +13,30 @@
 #define BUTTONS_CENTER 9
 #define DIGITAL 10
 
-
-class JoystickClient : BLEDevice {
-    public:
-        JoystickClient();
-        ~JoystickClient();
-        bool isFind();
-        bool connectToServer();
-        bool isConnected();
-        bool update();
-        std::pair<int,int> getXY();
-        bool aPressed();
-        bool bPressed();
-        BLEScan* scan();
-
-    private:
-        static BLEAddress address;
-        static BLEUUID serviceUUID;
-        static BLEUUID charUUID;
-        static boolean doConnect;
-        static boolean connected;
-        static BLEAdvertisedDevice *myDevice;
-        static BLEScan *pBLEScan;
-
-        BLEClient *bclient;
-
-        class MyClientCallback;
-        class MyAdvertisedDeviceCallbacks;
-        uint8_t *data;
-
-        BLERemoteCharacteristic *pRemoteCharacteristic;
+class JoystickClient : BLEDevice
+{
+public:
+    JoystickClient();
+    bool isFind();
+    bool connectToServer();
+    bool isConnected();
+    bool update();
+    std::pair<int, int> getXY();
+    bool aPressed();
+    bool bPressed();
+    BLEScan *scan();
 };
 
+class MyClientCallback : public BLEClientCallbacks
+{
+public:
+
+    void onDisconnect(BLEClient *pclient);
+    void onConnect(BLEClient *pclient);
+};
+
+class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
+{
+public:
+    void onResult(BLEAdvertisedDevice advertisedDevice);
+};
