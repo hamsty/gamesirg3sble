@@ -28,9 +28,9 @@ public:
     BLEScan *scan();
 
 private:
-    const static BLEAddress address;
-    const static BLEUUID serviceUUID;
-    const static BLEUUID charUUID;
+    static BLEAddress address;
+    static BLEUUID serviceUUID;
+    static BLEUUID charUUID;
     static boolean connected;
     BLERemoteCharacteristic *pRemoteCharacteristic;
     static BLEAdvertisedDevice *myDevice;
