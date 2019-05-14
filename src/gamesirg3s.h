@@ -21,7 +21,7 @@ static BLERemoteCharacteristic* pRemoteCharacteristic;
 static BLEAdvertisedDevice* myDevice;
 static boolean doConnect = false;
 static uint8_t* ddata;
-BLEScan *pBLEScan;
+static BLEScan *pBLEScan;
 
 class JoystickClient : BLEDevice
 {
