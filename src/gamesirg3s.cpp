@@ -53,7 +53,7 @@ bool JoystickClient::connectToServer()
     if (pRemoteCharacteristic == nullptr)
     {
         Serial.print("Failed to find our characteristic UUID: ");
-        Serial.println(charUUID.toString().c_str());
+        Serial.println(charUUID.toString());
         pClient->disconnect();
         return false;
     }
