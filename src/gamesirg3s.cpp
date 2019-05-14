@@ -108,7 +108,7 @@ bool JoystickClient::bPressed(){
     return ddata[BUTTONS_PLAY]==2;
 };
 
-bool JoystickClient::bPressed(){
+bool JoystickClient::startPressed(){
     return ddata[BUTTONS_CENTER]==10;
 };
 
