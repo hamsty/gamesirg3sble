@@ -26,7 +26,7 @@ void JoystickClient::MyClientCallback::onDisconnect(BLEClient *pclient)
 bool JoystickClient::connectToServer()
 {
     Serial.print("Forming a connection to ");
-    Serial.println(myDevice->getAddress().toString());
+    Serial.println(myDevice->getAddress().toString().c_str());
 
     BLEClient *pClient = BLEDevice::createClient();
     Serial.println(" - Created client");
@@ -38,22 +38,22 @@ bool JoystickClient::connectToServer()
     Serial.println(" - Connected to server");
 
     // Obtain a reference to the service we are after in the remote BLE server.
-    BLERemoteService *pRemoteService = pClient->getService(serviceUUID);
+    BLERemoteService *pRemoteService = pClient->getService(JoystickClient::serviceUUID);
     if (pRemoteService == nullptr)
     {
         Serial.print("Failed to find our service UUID: ");
-        Serial.println(serviceUUID.toString());
+        Serial.println(JoystickClient::serviceUUID.toString().c_str());
         pClient->disconnect();
         return false;
     }
     Serial.println(" - Found our service");
 
     // Obtain a reference to the characteristic in the service of the remote BLE server.
-    pRemoteCharacteristic = pRemoteService->getCharacteristic(charUUID);
+    pRemoteCharacteristic = pRemoteService->getCharacteristic(JoystickClient::charUUID);
     if (pRemoteCharacteristic == nullptr)
     {
         Serial.print("Failed to find our characteristic UUID: ");
-        Serial.println(charUUID.toString());
+        Serial.println(JoystickClient::charUUID.toString());
         pClient->disconnect();
         return false;
     }
