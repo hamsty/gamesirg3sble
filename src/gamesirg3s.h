@@ -1,14 +1,4 @@
-#ifndef MAIN_BLEDEVICE_H_
-#define MAIN_BLEDEVICE_H_
-
-#include "sdkconfig.h"
-#if defined(CONFIG_BT_ENABLED)
-
 #include <BLEDevice.h>
-#include <BLEClient.h>
-#include <BLERemoteCharacteristic.h>
-#include <BLEAdvertisedDevice.h>
-#include <BLEUtils.h>
 #include <Arduino.h>
 #include <math.h>
 #include <string.h>
@@ -60,7 +50,3 @@ private:
         void onResult(BLEAdvertisedDevice advertisedDevice);
     };
 };
-
-
-#endif // CONFIG_BT_ENABLED
-#endif /* MAIN_BLEDEVICE_H_ */
