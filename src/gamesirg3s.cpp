@@ -95,8 +95,8 @@ bool JoystickClient::update(){
 };
 
 pair<int,int> JoystickClient::getXY(){
-    int x = ddata[L3_X] > 128 ? 1 : (ddata[L3_X] < 128 ? -1 : 0);
-    int y = ddata[L3_Y] > 128 ? -1 : (ddata[L3_Y] < 128 ? 1 : 0);
+    int x = ddata[L3_X] > 128 || ddata[DIGITAL]==3 ? 1 : (ddata[L3_X] < 128 || ddata[DIGITAL]== 7 ? -1 : 0);
+    int y = ddata[L3_Y] > 128 || ddata[DIGITAL]==5 ? -1 : (ddata[L3_Y] < 128|| ddata[DIGITAL]== 1 ? 1 : 0);
     return {x,y};
 };
 
