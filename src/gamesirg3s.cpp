@@ -6,9 +6,9 @@
 
 using namespace std;
 
-const static BLEAddress JoystickClient::address("86:55:06:68:2D:E0");
-const static BLEUUID JoystickClient::serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
-const static BLEUUID JoystickClient::charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
+const static BLEAddress address("86:55:06:68:2D:E0");
+const static BLEUUID serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
+const static BLEUUID charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
 
 void JoystickClient::MyClientCallback::onConnect(BLEClient *pclient)
 {
