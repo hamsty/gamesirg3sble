@@ -10,6 +10,7 @@ BLEAddress JoystickClient::address = BLEAddress("86:55:06:68:2D:E0");
 BLEUUID JoystickClient::serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
 BLEUUID JoystickClient::charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
 boolean JoystickClient::connected = false;
+boolean JoystickClient::doConnect = false;
 BLEAdvertisedDevice *JoystickClient::myDevice;
 
 void JoystickClient::MyClientCallback::onConnect(BLEClient *pclient)
@@ -74,7 +75,7 @@ void JoystickClient::MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice a
 
         JoystickClient::getScan()->stop();
         myDevice = new BLEAdvertisedDevice(advertisedDevice);
-
+        doConnect = true;
     } // Found our server
 }     // onResult
 

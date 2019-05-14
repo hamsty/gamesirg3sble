@@ -33,8 +33,8 @@ private:
     static BLEUUID charUUID;
     static boolean connected;
     static BLEAdvertisedDevice *myDevice;
+    static boolean doConnect;
     BLERemoteCharacteristic *pRemoteCharacteristic;
-    boolean doConnect;
     uint8_t *ddata;
     BLEScan *pBLEScan;
 
