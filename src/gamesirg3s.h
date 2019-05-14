@@ -15,6 +15,13 @@
 
 class JoystickClient : BLEDevice
 {
+static:
+    BLEAddress address;
+    BLEUUID serviceUUID;
+    BLEUUID charUUID;
+    boolean connected;
+    BLEAdvertisedDevice *myDevice;
+
 public:
     JoystickClient();
     ~JoystickClient();
@@ -28,12 +35,7 @@ public:
     BLEScan *scan();
 
 private:
-    static BLEAddress address;
-    static BLEUUID serviceUUID;
-    static BLEUUID charUUID;
-    static boolean connected;
     BLERemoteCharacteristic *pRemoteCharacteristic;
-    static BLEAdvertisedDevice *myDevice;
     boolean doConnect;
     uint8_t *ddata;
     BLEScan *pBLEScan;
