@@ -26,7 +26,7 @@ void JoystickClient::MyClientCallback::onDisconnect(BLEClient *pclient)
 bool JoystickClient::connectToServer()
 {
     Serial.print("Forming a connection to ");
-    Serial.println(myDevice->getAddress().toString().c_str());
+    Serial.println(myDevice->getAddress().toString());
 
     BLEClient *pClient = BLEDevice::createClient();
     Serial.println(" - Created client");
@@ -42,7 +42,7 @@ bool JoystickClient::connectToServer()
     if (pRemoteService == nullptr)
     {
         Serial.print("Failed to find our service UUID: ");
-        Serial.println(serviceUUID.toString().c_str());
+        Serial.println(serviceUUID.toString());
         pClient->disconnect();
         return false;
     }
