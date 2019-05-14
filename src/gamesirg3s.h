@@ -1,3 +1,9 @@
+#ifndef MAIN_BLEDEVICE_H_
+#define MAIN_BLEDEVICE_H_
+
+#include "sdkconfig.h"
+#if defined(CONFIG_BT_ENABLED)
+
 #include <BLEDevice.h>
 #include <Arduino.h>
 #include <math.h>
@@ -13,16 +19,6 @@
 #define BUTTONS_CENTER 9
 #define DIGITAL 10
 
-static BLEAddress address("86:55:06:68:2D:E0");
-static BLEUUID serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
-static BLEUUID charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
-static boolean connected = false;
-static BLERemoteCharacteristic* pRemoteCharacteristic;
-static BLEAdvertisedDevice* myDevice;
-static boolean doConnect = false;
-static uint8_t* ddata;
-static BLEScan *pBLEScan;
-
 class JoystickClient : BLEDevice
 {
 public:
@@ -35,18 +31,32 @@ public:
     bool aPressed();
     bool bPressed();
     BLEScan *scan();
+
+private:
+    static BLEAddress address;
+    static BLEUUID serviceUUID;
+    static BLEUUID charUUID;
+    static boolean connected;
+    static BLERemoteCharacteristic *pRemoteCharacteristic;
+    static BLEAdvertisedDevice *myDevice;
+    static boolean doConnect;
+    static uint8_t *ddata;
+    static BLEScan *pBLEScan;
+
+    class MyClientCallback : public BLEClientCallbacks
+    {
+    public:
+        void onDisconnect(BLEClient *pclient);
+        void onConnect(BLEClient *pclient);
+    };
+
+    class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
+    {
+    public:
+        void onResult(BLEAdvertisedDevice advertisedDevice);
+    };
 };
 
-class MyClientCallback : public BLEClientCallbacks
-{
-public:
 
-    void onDisconnect(BLEClient *pclient);
-    void onConnect(BLEClient *pclient);
-};
-
-class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
-{
-public:
-    void onResult(BLEAdvertisedDevice advertisedDevice);
-};
+#endif // CONFIG_BT_ENABLED
+#endif /* MAIN_BLEDEVICE_H_ */

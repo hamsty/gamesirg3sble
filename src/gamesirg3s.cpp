@@ -6,13 +6,23 @@
 
 using namespace std;
 
-void MyClientCallback::onConnect(BLEClient *pclient)
+static BLEAddress address("86:55:06:68:2D:E0");
+static BLEUUID serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
+static BLEUUID charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
+static boolean connected = false;
+static BLERemoteCharacteristic *pRemoteCharacteristic;
+static BLEAdvertisedDevice *myDevice;
+static boolean doConnect = false;
+static uint8_t *ddata;
+static BLEScan *pBLEScan;
+
+void JoystickClient::MyClientCallback::onConnect(BLEClient *pclient)
 {
 
 };
 
 
-void MyClientCallback::onDisconnect(BLEClient *pclient)
+void JoystickClient::MyClientCallback::onDisconnect(BLEClient *pclient)
 {
     connected = false;
     Serial.println("onDisconnect");
@@ -57,7 +67,7 @@ bool JoystickClient::connectToServer()
     connected = true;
 }
 
-void MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice advertisedDevice)
+void JoystickClient::MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice advertisedDevice)
 {
     Serial.print("BLE Advertised Device found: ");
     Serial.println(advertisedDevice.toString().c_str());
@@ -115,5 +125,4 @@ JoystickClient::JoystickClient()
     pBLEScan->setInterval(1349);
     pBLEScan->setWindow(449);
     pBLEScan->setActiveScan(true);
-    pBLEScan->start(5,false);
 }
