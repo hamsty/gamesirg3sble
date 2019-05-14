@@ -25,6 +25,7 @@ public:
     std::pair<int, int> getXY();
     bool aPressed();
     bool bPressed();
+    bool startPressed();
     BLEScan *scan();
 
 private:

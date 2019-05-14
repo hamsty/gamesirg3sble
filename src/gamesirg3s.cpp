@@ -108,6 +108,10 @@ bool JoystickClient::bPressed(){
     return ddata[BUTTONS_PLAY]==2;
 };
 
+bool JoystickClient::bPressed(){
+    return ddata[BUTTONS_CENTER]==10;
+};
+
 BLEScan* JoystickClient::scan(){
     return pBLEScan;
 }
