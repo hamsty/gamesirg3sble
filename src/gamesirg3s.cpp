@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <math.h>
 #include <string.h>
+#include "gamesirg3s.h"
 
 using namespace std;
 
