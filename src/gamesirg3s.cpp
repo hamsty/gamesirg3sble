@@ -121,6 +121,7 @@ JoystickClient::JoystickClient()
     pBLEScan->setInterval(1349);
     pBLEScan->setWindow(449);
     pBLEScan->setActiveScan(true);
+    pBLEScan->start(5, false);
 }
 
 JoystickClient::~JoystickClient(){
