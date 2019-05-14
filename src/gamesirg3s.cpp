@@ -6,15 +6,9 @@
 
 using namespace std;
 
-static BLEAddress JoystickClient::address("86:55:06:68:2D:E0");
-static BLEUUID JoystickClient::serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
-static BLEUUID JoystickClient::charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
-static boolean JoystickClient::connected = false;
-static JoystickClient::BLERemoteCharacteristic *pRemoteCharacteristic;
-static JoystickClient::BLEAdvertisedDevice *myDevice;
-static boolean JoystickClient::doConnect = false;
-static uint8_t *JoystickClient::ddata;
-static BLEScan *JoystickClient::pBLEScan;
+const static BLEAddress JoystickClient::address("86:55:06:68:2D:E0");
+const static BLEUUID JoystickClient::serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
+const static BLEUUID JoystickClient::charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
 
 void JoystickClient::MyClientCallback::onConnect(BLEClient *pclient)
 {
@@ -125,4 +119,11 @@ JoystickClient::JoystickClient()
     pBLEScan->setInterval(1349);
     pBLEScan->setWindow(449);
     pBLEScan->setActiveScan(true);
+}
+
+JoystickClient::~JoystickClient(){
+    delete [] pBLEScan;
+    delete [] pRemoteCharacteristic;
+    delete [] myDevice;
+    delete [] ddata;
 }

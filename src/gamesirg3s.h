@@ -17,6 +17,7 @@ class JoystickClient : BLEDevice
 {
 public:
     JoystickClient();
+    ~JoystickClient();
     bool isFind();
     bool connectToServer();
     bool isConnected();
@@ -27,15 +28,15 @@ public:
     BLEScan *scan();
 
 private:
-    static BLEAddress address;
-    static BLEUUID serviceUUID;
-    static BLEUUID charUUID;
-    static boolean connected;
-    static BLERemoteCharacteristic *pRemoteCharacteristic;
-    static BLEAdvertisedDevice *myDevice;
-    static boolean doConnect;
-    static uint8_t *ddata;
-    static BLEScan *pBLEScan;
+    const static BLEAddress address;
+    const static BLEUUID serviceUUID;
+    const static BLEUUID charUUID;
+    boolean connected;
+    BLERemoteCharacteristic *pRemoteCharacteristic;
+    BLEAdvertisedDevice *myDevice;
+    boolean doConnect;
+    uint8_t *ddata;
+    BLEScan *pBLEScan;
 
     class MyClientCallback : public BLEClientCallbacks
     {
