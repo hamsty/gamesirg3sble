@@ -13,7 +13,7 @@
 #define BUTTONS_CENTER 9
 #define DIGITAL 10
 
-class JoystickClient : BLEDevice
+class JoystickClient
 {
 public:
     JoystickClient();
@@ -26,7 +26,6 @@ public:
     bool aPressed();
     bool bPressed();
     bool startPressed();
-    BLEScan *scan();
 
 private:
     static BLEAddress address;
@@ -38,13 +37,6 @@ private:
     BLERemoteCharacteristic *pRemoteCharacteristic;
     uint8_t *ddata;
     BLEScan *pBLEScan;
-
-    class MyClientCallback : public BLEClientCallbacks
-    {
-    public:
-        void onDisconnect(BLEClient *pclient);
-        void onConnect(BLEClient *pclient);
-    };
 
     class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {

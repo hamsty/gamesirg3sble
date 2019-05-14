@@ -13,73 +13,31 @@ boolean JoystickClient::connected = false;
 boolean JoystickClient::doConnect = false;
 BLEAdvertisedDevice *JoystickClient::myDevice;
 
-void JoystickClient::MyClientCallback::onConnect(BLEClient *pclient)
-{
-
-};
-
-
-void JoystickClient::MyClientCallback::onDisconnect(BLEClient *pclient)
-{
-    connected = false;
-    Serial.println("onDisconnect");
-};
-
 
 bool JoystickClient::connectToServer()
 {
-    Serial.print("Forming a connection to ");
-    Serial.println(myDevice->getAddress().toString().c_str());
-
     BLEClient *pClient = BLEDevice::createClient();
-    Serial.println(" - Created client");
-
-    pClient->setClientCallbacks(new MyClientCallback());
-
-    // Connect to the remove BLE Server.
-    pClient->connect(myDevice); // if you pass BLEAdvertisedDevice instead of address, it will be recognized type of peer device address (public or private)
-    Serial.println(" - Connected to server");
-
-    // Obtain a reference to the service we are after in the remote BLE server.
+    pClient->connect(myDevice); 
+    delele [] myDevice;
     BLERemoteService *pRemoteService = pClient->getService(serviceUUID);
-    if (pRemoteService == nullptr)
-    {
-        Serial.print("Failed to find our service UUID: ");
-        Serial.println(serviceUUID.toString().c_str());
-        pClient->disconnect();
-        return false;
-    }
-    Serial.println(" - Found our service");
-
-    // Obtain a reference to the characteristic in the service of the remote BLE server.
     pRemoteCharacteristic = pRemoteService->getCharacteristic(charUUID);
-    if (pRemoteCharacteristic == nullptr)
-    {
-        Serial.print("Failed to find our characteristic UUID: ");
-        Serial.println(charUUID.toString().c_str());
-        pClient->disconnect();
-        return false;
-    }
-    Serial.println(" - Found our characteristic");
+    delete [] pRemoteService;
     connected = true;
 }
 
 void JoystickClient::MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice advertisedDevice)
 {
-    Serial.print("BLE Advertised Device found: ");
-    Serial.println(advertisedDevice.toString().c_str());
-
-    // We have found a device, let us now see if it contains the service we are looking for.
     if (advertisedDevice.getAddress().equals(address))
     {
-
         JoystickClient::getScan()->stop();
         myDevice = new BLEAdvertisedDevice(advertisedDevice);
         doConnect = true;
-    } // Found our server
-}     // onResult
+    }
+}
 
 bool JoystickClient::isFind(){
+    bBLEScan->clear();
+    delete [] bBLEScan;
     return doConnect;
 };
 
@@ -89,6 +47,7 @@ bool JoystickClient::isConnected(){
 
 bool JoystickClient::update(){
     if(connected){
+        delete [] ddata;
         pRemoteCharacteristic->readValue();
         ddata = pRemoteCharacteristic->readRawData();
     }
@@ -112,16 +71,12 @@ bool JoystickClient::startPressed(){
     return ddata[BUTTONS_CENTER]==8;
 };
 
-BLEScan* JoystickClient::scan(){
-    return pBLEScan;
-}
-
 JoystickClient::JoystickClient()
 {
     doConnect = false;
     connected = false;
-    JoystickClient::init("JoystickClient");
-    pBLEScan = JoystickClient::getScan();
+    BLEDevice::init("JoystickClient");
+    pBLEScan = BLEDevice::getScan();
     pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
     pBLEScan->setInterval(1349);
     pBLEScan->setWindow(449);
