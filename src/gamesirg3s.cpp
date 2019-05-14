@@ -109,7 +109,7 @@ bool JoystickClient::bPressed(){
 };
 
 bool JoystickClient::startPressed(){
-    return ddata[BUTTONS_CENTER]==08;
+    return ddata[BUTTONS_CENTER]==8;
 };
 
 BLEScan* JoystickClient::scan(){
