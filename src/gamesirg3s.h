@@ -13,6 +13,16 @@
 #define BUTTONS_CENTER 9
 #define DIGITAL 10
 
+static BLEAddress address("86:55:06:68:2D:E0");
+static BLEUUID serviceUUID = BLEUUID("00008650-0000-1000-8000-00805f9b34fb");
+static BLEUUID charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb");
+static boolean connected = false;
+static BLERemoteCharacteristic* pRemoteCharacteristic;
+static BLEAdvertisedDevice* myDevice;
+static boolean doConnect = false;
+static uint8_t* ddata;
+BLEScan *pBLEScan;
+
 class JoystickClient : BLEDevice
 {
 public:
