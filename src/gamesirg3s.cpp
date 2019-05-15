@@ -18,7 +18,7 @@ bool JoystickClient::connectToServer()
 {
     BLEClient *pClient = BLEDevice::createClient();
     pClient->connect(myDevice); 
-    delele [] myDevice;
+    delete [] myDevice;
     BLERemoteService *pRemoteService = pClient->getService(serviceUUID);
     pRemoteCharacteristic = pRemoteService->getCharacteristic(charUUID);
     delete [] pRemoteService;
