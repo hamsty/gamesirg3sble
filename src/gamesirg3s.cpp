@@ -29,7 +29,7 @@ void JoystickClient::MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice a
 {
     if (advertisedDevice.getAddress().equals(address))
     {
-        JoystickClient::getScan()->stop();
+        BLEDevice::getScan()->stop();
         myDevice = new BLEAdvertisedDevice(advertisedDevice);
         doConnect = true;
     }
