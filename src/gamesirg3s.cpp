@@ -37,7 +37,7 @@ void JoystickClient::MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice a
 
 bool JoystickClient::isFind(){
     bBLEScan->clear();
-    delete [] bBLEScan;
+    delete [] pBLEScan;
     return doConnect;
 };
 
