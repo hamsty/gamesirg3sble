@@ -18,10 +18,8 @@ bool JoystickClient::connectToServer()
 {
     BLEClient *pClient = BLEDevice::createClient();
     pClient->connect(myDevice); 
-    delete [] myDevice;
     BLERemoteService *pRemoteService = pClient->getService(serviceUUID);
     pRemoteCharacteristic = pRemoteService->getCharacteristic(charUUID);
-    delete [] pRemoteService;
     connected = true;
 }
 
@@ -36,7 +34,6 @@ void JoystickClient::MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice a
 }
 
 bool JoystickClient::isFind(){
-    delete [] pBLEScan;
     return doConnect;
 };
 
@@ -46,7 +43,6 @@ bool JoystickClient::isConnected(){
 
 bool JoystickClient::update(){
     if(connected){
-        delete [] ddata;
         pRemoteCharacteristic->readValue();
         ddata = pRemoteCharacteristic->readRawData();
     }
