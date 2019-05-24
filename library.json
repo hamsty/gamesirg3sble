@@ -18,7 +18,7 @@
     "platforms": ["espressif32"],
     "dependencies": [
       {
-        "name": "BLEDevice",
+        "name": "ESP32 BLE Arduino",
         "platforms": "espressif32"
       }
     ]
