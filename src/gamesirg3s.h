@@ -37,7 +37,7 @@ private:
     BLERemoteCharacteristic *pRemoteCharacteristic;
     uint8_t *ddata;
     BLEScan *pBLEScan;
-    BLEClient *pCLient;
+    BLEClient *pClient;
 
     class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
