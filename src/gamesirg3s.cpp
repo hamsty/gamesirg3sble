@@ -12,11 +12,12 @@ BLEUUID JoystickClient::charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb
 boolean JoystickClient::connected = false;
 boolean JoystickClient::doConnect = false;
 BLEAdvertisedDevice *JoystickClient::myDevice;
+BLEClient  *JoystickCLient::pClient;
 
 
 bool JoystickClient::connectToServer()
 {
-    BLEClient *pClient = BLEDevice::createClient();
+    pClient = BLEDevice::createClient();
     pClient->connect(myDevice); 
     BLERemoteService *pRemoteService = pClient->getService(serviceUUID);
     pRemoteCharacteristic = pRemoteService->getCharacteristic(charUUID);
