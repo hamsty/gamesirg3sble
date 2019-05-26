@@ -34,10 +34,11 @@ private:
     static boolean connected;
     static BLEAdvertisedDevice *myDevice;
     static boolean doConnect;
+    static BLEClient *pClient;
     BLERemoteCharacteristic *pRemoteCharacteristic;
     uint8_t *ddata;
     BLEScan *pBLEScan;
-    BLEClient *pClient;
+    
 
     class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
