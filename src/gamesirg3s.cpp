@@ -12,13 +12,12 @@ BLEUUID JoystickClient::charUUID = BLEUUID("00008651-0000-1000-8000-00805f9b34fb
 boolean JoystickClient::connected = false;
 boolean JoystickClient::doConnect = false;
 BLEAdvertisedDevice *JoystickClient::myDevice;
-BLEClient  *JoystickClient::pClient;
+BLEClient *JoystickClient::pClient;
 
-
-bool JoystickClient::connectToServer()
+void JoystickClient::connectToServer()
 {
     pClient = BLEDevice::createClient();
-    pClient->connect(myDevice); 
+    pClient->connect(myDevice);
     BLERemoteService *pRemoteService = pClient->getService(serviceUUID);
     pRemoteCharacteristic = pRemoteService->getCharacteristic(charUUID);
     connected = true;
@@ -34,37 +33,57 @@ void JoystickClient::MyAdvertisedDeviceCallbacks::onResult(BLEAdvertisedDevice a
     }
 }
 
-bool JoystickClient::isFind(){
+bool JoystickClient::isFind()
+{
     return doConnect;
 };
 
-bool JoystickClient::isConnected(){
+bool JoystickClient::isConnected()
+{
     return connected;
 };
 
-bool JoystickClient::update(){
-    if(connected){
+void JoystickClient::update()
+{
+    if (connected)
+    {
         pRemoteCharacteristic->readValue();
         ddata = pRemoteCharacteristic->readRawData();
+        if (!(ddata[0] == 0xA1 && ddata[1] == 0xC4))
+        {
+            ddata[0x00] = 0xA1;
+            ddata[0x01] = 0xC4;
+            ddata[LSB_X] = 0x80;
+            ddata[LSB_Y] = 0x80;
+            ddata[RSB_X] = 0x80;
+            ddata[RSB_Y] = 0x80;
+            ddata[LB] = 0x00;
+            ddata[BUTTONS_CENTER] = 0x00;
+            ddata[DPAD] = 0x00;
+        }
     }
 };
 
-pair<int,int> JoystickClient::getXY(){
-    int x = ddata[L3_X] > 128 || (ddata[DIGITAL]>=2 && ddata[DIGITAL]<=4) ? 1 : (ddata[L3_X] < 128 || (ddata[DIGITAL]>=6 && ddata[DIGITAL]<=8) ? -1 : 0);
-    int y = ddata[L3_Y] > 128 || (ddata[DIGITAL]>=4 && ddata[DIGITAL]<=6) ? -1 : (ddata[L3_Y] < 128|| ddata[DIGITAL]== 1 || ddata[DIGITAL]== 8 || ddata[DIGITAL]== 2 ? 1 : 0);
-    return {x,y};
+pair<int, int> JoystickClient::getXY()
+{
+    int x = ddata[LSB_X] > 0x80 || ddata[DPAD] == 0x03 ? 1 : (ddata[LSB_X] < 0x80 || ddata[DPAD] == 0x07 ? -1 : 0);
+    int y = ddata[LSB_Y] > 0x80 || ddata[DPAD] == 0x01 ? 1 : (ddata[LSB_Y] < 0x80 || ddata[DPAD] == 0x05 ? -1 : 0);
+    return {x, y};
 };
 
-bool JoystickClient::aPressed(){
-    return ddata[BUTTONS_PLAY]==1;
+bool JoystickClient::aPressed()
+{
+    return ddata[BUTTONS_PLAY] == 0x01;
 };
 
-bool JoystickClient::bPressed(){
-    return ddata[BUTTONS_PLAY]==2;
+bool JoystickClient::bPressed()
+{
+    return ddata[BUTTONS_PLAY] == 0x02;
 };
 
-bool JoystickClient::startPressed(){
-    return ddata[BUTTONS_CENTER]==8;
+bool JoystickClient::startPressed()
+{
+    return ddata[BUTTONS_CENTER] == 0x08;
 };
 
 JoystickClient::JoystickClient()
@@ -80,9 +99,10 @@ JoystickClient::JoystickClient()
     pBLEScan->start(5, false);
 }
 
-JoystickClient::~JoystickClient(){
-    delete [] pBLEScan;
-    delete [] pRemoteCharacteristic;
-    delete [] myDevice;
-    delete [] ddata;
+JoystickClient::~JoystickClient()
+{
+    delete[] pBLEScan;
+    delete[] pRemoteCharacteristic;
+    delete[] myDevice;
+    delete[] ddata;
 }

@@ -3,15 +3,15 @@
 #include <math.h>
 #include <string.h>
 
-#define L3_X 2
-#define L3_Y 3
-#define R3_X 4
-#define R3_Y 5
-#define L2 6
-#define R2 7
-#define BUTTONS_PLAY 8
-#define BUTTONS_CENTER 9
-#define DIGITAL 10
+#define LSB_X 0x2
+#define LSB_Y 0x3
+#define RSB_X 0x4
+#define RSB_Y 0x5
+#define LB 0x8
+#define RB 0x8
+#define BUTTONS_PLAY 0x8
+#define BUTTONS_CENTER 0x9
+#define DPAD 0xA
 
 class JoystickClient
 {
@@ -19,9 +19,9 @@ public:
     JoystickClient();
     ~JoystickClient();
     bool isFind();
-    bool connectToServer();
+    void connectToServer();
     bool isConnected();
-    bool update();
+    void update();
     std::pair<int, int> getXY();
     bool aPressed();
     bool bPressed();
