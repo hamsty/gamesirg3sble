@@ -45,6 +45,7 @@ bool JoystickClient::isConnected()
 
 void JoystickClient::update()
 {
+    connected = pClient->isConnected();
     if (connected)
     {
         pRemoteCharacteristic->readValue();
